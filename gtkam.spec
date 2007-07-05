@@ -1,24 +1,26 @@
-Summary: 	GPhoto2 GTK frontend
-Name: 		gtkam
-Version: 	0.1.13
-Release: 	%mkrel 3
+%define name	gtkam
+%define version	0.1.14
+%define release	%mkrel 1
+
+Summary: 	GPhoto2 GTK+ frontend
+Name: 		%{name}
+Version: 	%{version}
+Release: 	%{release}
 License: 	GPL
 Group: 		Graphics
-Source0:	%name-%version.tar.bz2
-Source1:	digicam-launch-icon.png.bz2
+Source0:	http://prdownloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
+# file in the tarball is corrupt: replaced from upstream SVN. Drop
+# with any release after 0.1.14. -AdamW 2007/07
+Source1:	gtkam.png.bz2
 Source2:	xmldocs.make.bz2
-Patch4:		gtkam-omf-install.patch.bz2
+Patch4:		gtkam-omf-install.patch
 URL: 		http://sourceforge.net/projects/gphoto
-Requires: 	libgphoto >= 2.1.1-2mdk
 Requires:	libgphoto-hotplug
-Obsoletes: 	hackgphoto2-gtkam
-Provides: 	hackgphoto2-gtkam
 BuildRequires: 	libgphoto-devel
 BuildRequires: 	gettext-devel
 BuildRequires: 	libexif-gtk-devel
-BuildRequires:	autoconf2.5
+BuildRequires:	autoconf
 BuildRequires:	ImageMagick
-BuildRequires:	automake1.8
 BuildRequires:	gnome-common libbonobo2_x-devel libbonobo-activation-devel libgnomeui2-devel
 BuildRequires:	scrollkeeper
 BuildRoot: 	%{_tmppath}/%{name}-buildroot
@@ -28,7 +30,7 @@ Requires(postun): scrollkeeper
 %define buildgimpplugin 1
 
 %if %{buildgimpplugin}
-BuildRequires: 	gimp2-devel
+BuildRequires: 	gimp-devel
 %endif
 
 %description
@@ -38,7 +40,7 @@ GTKam is a fine interface for a wide variety of digital cameras.
 %package gimp-plugin
 Summary: 	GIMP-plug-in for digital camera access through GPhoto2
 Requires: 	%name = %version 
-Requires:	gimp2_0 >= 2
+Requires:	gimp
 Group: 		Graphics
 
 %description gimp-plugin
@@ -51,8 +53,8 @@ rm -rf %buildroot
 %setup -q
 
 %patch4 -p1
-sed -i -e "s,gimp/1.3/plug-ins,gimp/2.0/plug-ins," src/Makefile*
-bzcat %{SOURCE1} > icon.png
+perl -pi -e 's,gimp/1.3/plug-ins,gimp/2.0/plug-ins,g' src/Makefile*
+bzcat %{SOURCE1} > gtkam.png
 bzcat %{SOURCE2} > xmldocs.make
 
 %build
@@ -61,45 +63,32 @@ bzcat %{SOURCE2} > xmldocs.make
 
 %make WARN_CFLAGS=""
 
-# convert icons to required format
-convert icon.png -resize 32x32 gtkam.png
-convert icon.png -resize 16x16 gtkam_mini.png
-convert icon.png -resize 48x48 gtkam_large.png
-
 %install
 %makeinstall_std
 %find_lang %{name} --with-gnome 
 
 # icons
-install -d %buildroot%{_datadir}/icons
-install -m 644 gtkam.png %buildroot%{_datadir}/icons/
-install -d %buildroot%{_datadir}/icons/mini
-install -m 644 gtkam_mini.png %buildroot%{_datadir}/icons/mini/gtkam.png
-install -d %buildroot%{_datadir}/icons/large
-install -m 644 gtkam_large.png %buildroot%{_datadir}/icons/large/gtkam.png
-
+mkdir -p %buildroot%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
+mkdir -p %buildroot%{_liconsdir}
+mkdir -p %buildroot%{_miconsdir}
+cp %buildroot%_datadir/pixmaps/%{name}.png %buildroot%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+cp %buildroot%_datadir/pixmaps/%{name}.png %buildroot%{_liconsdir}/%{name}.png
+convert -scale 32 %buildroot%_datadir/pixmaps/%{name}.png %buildroot%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+convert -scale 32 %buildroot%_datadir/pixmaps/%{name}.png %buildroot%{_iconsdir}/%{name}.png
+convert -scale 16 %buildroot%_datadir/pixmaps/%{name}.png %buildroot%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+convert -scale 16 %buildroot%_datadir/pixmaps/%{name}.png %buildroot%{_miconsdir}/%{name}.png
 # menu stuff
-install -d %buildroot%{_menudir}
-cat <<EOF > %buildroot/%_menudir/gtkam
-?package(gtkam):command="%{_bindir}/gtkam" \
-title="GTKam (GPhoto 2)" \
-longtitle="GNU Digital Camera Program, for newer cameras" \
-needs="x11" \
-section="Multimedia/Graphics" \
-icon="gtkam.png" \
-xdg="true"
-EOF
 
 mkdir -p %buildroot%{_datadir}/applications
 cat << EOF > %buildroot%{_datadir}/applications/mandriva-%{name}.desktop
 [Desktop Entry]
-Name=GTKam (GPhoto 2)
-Comment=GNU Digital Camera Program, for newer cameras
+Name=GTKam
+Comment=Access digital cameras (via GPhoto2)
 Exec=%{_bindir}/%{name} 
 Icon=%{name}
 Terminal=false
 Type=Application
-Categories=GTK;X-MandrivaLinux-Multimedia-Graphics;Graphics;Photography;
+Categories=GTK;Graphics;Photography;
 Encoding=UTF-8
 EOF
 
@@ -124,13 +113,13 @@ EOF
 
 %post
 %update_menus
-test ! -f /usr/bin/scrollkeeper-update || /usr/bin/scrollkeeper-update -q
+%update_scrollkeeper
 update-alternatives --install %launchers/kde.desktop camera.kde.dynamic %launchers/%name.desktop 50
 update-alternatives --install %launchers/gnome.desktop camera.gnome.dynamic %launchers/%name.desktop 50
 
 %postun
 %clean_menus
-test ! -f /usr/bin/scrollkeeper-update || /usr/bin/scrollkeeper-update -q
+%clean_scrollkeeper
 if [ $1 = 0 ]; then
   update-alternatives --remove camera.kde.dynamic %launchers/%name.desktop
   update-alternatives --remove camera.gnome.dynamic %launchers/%name.desktop
@@ -144,19 +133,21 @@ rm -fr %buildroot
 %doc ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL NEWS README TODO
 %config(noreplace) %launchers/%{name}.desktop
 %{_bindir}/*
-%{_menudir}/*
-%{_datadir}/gtkam
-%{_datadir}/images/gtkam
+%{_datadir}/%{name}
+%{_datadir}/images/%{name}
 %{_datadir}/applications/*
-%{_mandir}/*/gtkam*
-%{_datadir}/omf/gtkam
-%{_datadir}/pixmaps/gtkam.png
+%{_mandir}/*/%{name}*
+%{_datadir}/omf/%{name}
+%{_datadir}/pixmaps/%{name}.png
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
+%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 %if %{buildgimpplugin}
 %files gimp-plugin
 %defattr(-,root,root,-)
-%{_libdir}/gimp/*/plug-ins/gtkam-gimp
+%{_libdir}/gimp/*/plug-ins/%{name}-gimp
 %endif
