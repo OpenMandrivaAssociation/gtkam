@@ -106,7 +106,7 @@ Comment=GNU Digital Camera Program
 TryExec=%{_bindir}/gtkam
 Exec=%{_bindir}/gtkam
 Terminal=false
-Icon=gtkam.png
+Icon=gtkam
 Type=Application
 EOF
 
