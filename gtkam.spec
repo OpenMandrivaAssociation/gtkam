@@ -23,7 +23,6 @@ BuildRequires:	autoconf
 BuildRequires:	ImageMagick
 BuildRequires:	gnome-common libbonobo2_x-devel libbonobo-activation-devel libgnomeui2-devel
 BuildRequires:	scrollkeeper
-BuildRoot: 	%{_tmppath}/%{name}-buildroot
 Requires(post): scrollkeeper
 Requires(postun): scrollkeeper
 
