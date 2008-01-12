@@ -1,6 +1,6 @@
 %define name	gtkam
 %define version	0.1.14
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 Summary: 	GPhoto2 GTK+ frontend
 Name: 		%{name}
