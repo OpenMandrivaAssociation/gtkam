@@ -1,11 +1,10 @@
 %define name	gtkam
 %define version	0.1.14
-%define release	%mkrel 2
 
 Summary: 	GPhoto2 GTK+ frontend
 Name: 		%{name}
 Version: 	%{version}
-Release: 	%{release}
+Release: 	%mkrel 3
 License: 	GPL
 Group: 		Graphics
 Source0:	http://prdownloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
