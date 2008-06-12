@@ -110,14 +110,18 @@ Type=Application
 EOF
 
 %post
+%if %mdkversion < 200900
 %update_menus
 %update_scrollkeeper
+%endif
 update-alternatives --install %launchers/kde.desktop camera.kde.dynamic %launchers/%name.desktop 50
 update-alternatives --install %launchers/gnome.desktop camera.gnome.dynamic %launchers/%name.desktop 50
 
 %postun
+%if %mdkversion < 200900
 %clean_menus
 %clean_scrollkeeper
+%endif
 if [ $1 = 0 ]; then
   update-alternatives --remove camera.kde.dynamic %launchers/%name.desktop
   update-alternatives --remove camera.gnome.dynamic %launchers/%name.desktop
