@@ -19,7 +19,7 @@ BuildRequires: 	libgphoto-devel
 BuildRequires: 	gettext-devel
 BuildRequires: 	libexif-gtk-devel
 BuildRequires:	autoconf
-BuildRequires:	ImageMagick
+BuildRequires:	imagemagick
 BuildRequires:	gnome-common
 BuildRequires:	libbonobo2_x-devel
 BuildRequires:	libbonobo-activation-devel
