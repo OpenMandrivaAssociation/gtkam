@@ -6,13 +6,14 @@
 Summary: 	GPhoto2 GTK+ frontend
 Name: 		gtkam
 Version: 	0.1.16.1
-Release: 	%{mkrel 1}
+Release: 	%{mkrel 2}
 License: 	GPLv2+
 Group: 		Graphics
 Source0:	http://downloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
 # file in the tarball is corrupt: replaced from upstream SVN. Drop
 # with any release after 0.1.14. -AdamW 2007/07
 Patch0:		gtkam-omf-install.patch
+Patch1:		gtkam_wformat.patch
 URL: 		http://sourceforge.net/projects/gphoto
 Requires:	libgphoto-hotplug
 BuildRequires: 	libgphoto-devel
@@ -51,6 +52,7 @@ GIMP-plug-in for direct digital camera access through GPhoto2.
 rm -rf %{buildroot}
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure2_5x
