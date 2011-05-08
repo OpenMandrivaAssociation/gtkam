@@ -20,6 +20,7 @@ BuildRequires: 	libexif-gtk-devel
 BuildRequires:	autoconf
 BuildRequires:	imagemagick
 BuildRequires:	gnome-common
+BuildRequires:	intltool
 BuildRequires:	libbonobo2_x-devel
 BuildRequires:	libbonobo-activation-devel
 BuildRequires:	libgnomeui2-devel
