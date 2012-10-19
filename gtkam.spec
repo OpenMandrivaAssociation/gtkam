@@ -21,7 +21,7 @@ BuildRequires:	imagemagick
 BuildRequires:	gnome-common
 BuildRequires:	intltool
 BuildRequires:	libbonobo2_x-devel
-BuildRequires:	libbonobo-activation-devel
+#BuildRequires:	libbonobo-activation-devel
 BuildRequires:	libgnomeui2-devel
 BuildRequires:	scrollkeeper
 %if %{buildgimpplugin}
@@ -46,8 +46,8 @@ GIMP-plug-in for direct digital camera access through GPhoto2.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+#patch0 -p1
+#patch1 -p1
 
 %build
 %configure2_5x
