@@ -1,0 +1,59 @@
+---
+ src/gtkam-port.c |    2 	1 +	1 -	0 !
+ src/gtkam-save.c |    2 	1 +	1 -	0 !
+ src/gtkam-tree.c |    2 	1 +	1 -	0 !
+ src/main.c       |    2 	1 +	1 -	0 !
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+Index: gtkam-0.1.16.1/src/gtkam-port.c
+===================================================================
+--- gtkam-0.1.16.1.orig/src/gtkam-port.c	2008-10-04 10:04:40.000000000 -0400
++++ gtkam-0.1.16.1/src/gtkam-port.c	2009-09-16 09:02:42.000000000 -0400
+@@ -145,7 +145,7 @@ on_ok_clicked (GtkButton *button, GtkamP
+ 	if (index < 0) {
+ 		msg = g_strdup_printf (_("The port '%s' could not be found. Please make sure "
+ 		        "that the port exists."), path);
+-		d = gtkam_error_new (index, NULL, GTK_WIDGET (port), msg);
++		d = gtkam_error_new (index, NULL, GTK_WIDGET (port), "%s", msg);
+ 		g_free (msg);
+ 		gtk_window_set_transient_for (GTK_WINDOW (d),
+ 					      GTK_WINDOW (port));
+Index: gtkam-0.1.16.1/src/gtkam-save.c
+===================================================================
+--- gtkam-0.1.16.1.orig/src/gtkam-save.c	2008-10-04 10:06:48.000000000 -0400
++++ gtkam-0.1.16.1/src/gtkam-save.c	2009-09-16 09:05:24.000000000 -0400
+@@ -302,7 +302,7 @@ save_file (GtkamSave *save, CameraFile *
+ 		msg = g_strdup_printf (_("The file '%s' already exists."),
+ 				       full_path);
+ 		if (!save->priv->err_shown) {
+-			dialog = gtkam_error_new (GP_ERROR_FILE_EXISTS, NULL, GTK_WIDGET (save), msg);
++			dialog = gtkam_error_new (GP_ERROR_FILE_EXISTS, NULL, GTK_WIDGET (save), "%s", msg);
+ 			gtk_window_set_transient_for (GTK_WINDOW (dialog),
+ 						      save->priv->main_window);
+ 			gtk_widget_show (dialog);
+Index: gtkam-0.1.16.1/src/gtkam-tree.c
+===================================================================
+--- gtkam-0.1.16.1.orig/src/gtkam-tree.c	2008-10-04 12:07:08.000000000 -0400
++++ gtkam-0.1.16.1/src/gtkam-tree.c	2009-09-16 09:08:34.000000000 -0400
+@@ -615,7 +615,7 @@ tree_save_file (CameraFile *file, const 
+ 		msg = g_strdup_printf (_("The file '%s' already exists."),
+ 				       full_path);
+ 		dialog = gtkam_error_new (GP_ERROR_FILE_EXISTS, NULL,
+-					  GTK_WIDGET (save), msg);
++					  GTK_WIDGET (save), "%s", msg);
+ 		gtk_widget_show (dialog);
+ 		g_free (msg);
+ 		g_free (full_path);
+Index: gtkam-0.1.16.1/src/main.c
+===================================================================
+--- gtkam-0.1.16.1.orig/src/main.c	2008-10-04 10:11:38.000000000 -0400
++++ gtkam-0.1.16.1/src/main.c	2009-09-16 09:11:28.000000000 -0400
+@@ -49,7 +49,7 @@ static void
+ log_func (GPLogLevel level, const char *domain, const char *format,
+ 	  va_list args, void *data)
+ {
+-	fprintf (stderr, domain);
++	fprintf (stderr, "%s", domain);
+ 	fprintf (stderr, ": ");
+ 	vfprintf (stderr, format, args);
+ 	fprintf (stderr, "\n");
