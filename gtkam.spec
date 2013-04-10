@@ -1,21 +1,21 @@
 %define buildgimpplugin	1
 
-Summary: 	GPhoto2 GTK+ frontend
-Name: 		gtkam
-Version: 	0.1.18
-Release: 	1
-License: 	GPLv2+
-Group: 		Graphics
+Summary:	GPhoto2 GTK+ frontend
+Name:		gtkam
+Version:	0.1.18
+Release:	2
+License:	GPLv2+
+Group:		Graphics
 Source0:	http://downloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
 # file in the tarball is corrupt: replaced from upstream SVN. Drop
 # with any release after 0.1.14. -AdamW 2007/07
 Patch0:		gtkam-omf-install.patch
 Patch1:		gtkam_wformat.patch
-URL: 		http://sourceforge.net/projects/gphoto
+URL:		http://sourceforge.net/projects/gphoto
 Requires:	libgphoto-hotplug
-BuildRequires: 	libgphoto-devel
-BuildRequires: 	gettext-devel
-BuildRequires: 	libexif-gtk-devel
+BuildRequires:	libgphoto-devel
+BuildRequires:	gettext-devel
+BuildRequires:	libexif-gtk-devel
 BuildRequires:	autoconf
 BuildRequires:	imagemagick
 BuildRequires:	gnome-common
@@ -25,10 +25,8 @@ BuildRequires:	pkgconfig(bonobo-activation-2.0)
 BuildRequires:	libgnomeui2-devel
 BuildRequires:	scrollkeeper
 %if %{buildgimpplugin}
-BuildRequires: 	gimp-devel
+BuildRequires:	gimp-devel
 %endif
-BuildRoot: 	%{_tmppath}/%{name}-buildroot
-
 Requires(post):		scrollkeeper
 Requires(postun):	scrollkeeper
 
@@ -37,10 +35,10 @@ GTKam is a fine interface for a wide variety of digital cameras.
 
 %if %{buildgimpplugin}
 %package gimp-plugin
-Summary: 	GIMP-plug-in for digital camera access through GPhoto2
-Requires: 	%{name} = %{version} 
+Summary:	GIMP-plug-in for digital camera access through GPhoto2
+Requires:	%{name} = %{version} 
 Requires:	gimp
-Group: 		Graphics
+Group:		Graphics
 
 %description gimp-plugin
 GIMP-plug-in for direct digital camera access through GPhoto2.
@@ -99,29 +97,18 @@ Type=Application
 EOF
 
 %post
-%if %mdkversion < 200900
-%update_menus
-%update_scrollkeeper
-%endif
 update-alternatives --install %{launchers}/kde.desktop camera.kde.dynamic %{launchers}/%{name}.desktop 50
 update-alternatives --install %{launchers}/gnome.desktop camera.gnome.dynamic %{launchers}/%{name}.desktop 50
 
 %postun
-%if %mdkversion < 200900
-%clean_menus
-%clean_scrollkeeper
-%endif
 if [ $1 = 0 ]; then
   update-alternatives --remove camera.kde.dynamic %{launchers}/%{name}.desktop
   update-alternatives --remove camera.gnome.dynamic %{launchers}/%{name}.desktop
 fi
 
-%clean
-rm -fr %{buildroot}
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
-%doc ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL NEWS README TODO
+%doc ABOUT-NLS AUTHORS ChangeLog INSTALL NEWS README TODO
 %config(noreplace) %{launchers}/%{name}.desktop
 %{_bindir}/*
 %{_datadir}/%{name}
@@ -137,7 +124,6 @@ rm -fr %{buildroot}
 
 %if %{buildgimpplugin}
 %files gimp-plugin
-%defattr(-,root,root,-)
 %{_libdir}/gimp/*/plug-ins/%{name}-gimp
 %endif
 
