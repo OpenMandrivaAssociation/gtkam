@@ -3,7 +3,7 @@
 Summary:	GPhoto2 GTK+ frontend
 Name:		gtkam
 Version:	0.1.18
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Graphics
 Url:		http://sourceforge.net/projects/gphoto
@@ -27,7 +27,7 @@ BuildRequires:	pkgconfig(libgphoto2)
 BuildRequires:	pkgconfig(gimp-2.0)
 %endif
 Requires(post,postun):	rarian
-Requires:	libgphoto-hotplug
+Requires:	libgphoto-common
 
 %description
 GTKam is a fine interface for a wide variety of digital cameras.
