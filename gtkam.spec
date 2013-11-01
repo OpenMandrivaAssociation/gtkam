@@ -2,12 +2,12 @@
 
 Summary:	GPhoto2 GTK+ frontend
 Name:		gtkam
-Version:	0.1.18
-Release:	3
+Version:	0.2.0
+Release:	1
 License:	GPLv2+
 Group:		Graphics
 Url:		http://sourceforge.net/projects/gphoto
-Source0:	http://downloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
+Source0:	https://sourceforge.net/projects/gphoto/files/gtkam/0.2.0/%{name}-%{version}.tar.bz2
 # file in the tarball is corrupt: replaced from upstream SVN. Drop
 # with any release after 0.1.14. -AdamW 2007/07
 Patch0:		gtkam-omf-install.patch
@@ -123,4 +123,5 @@ fi
 %files gimp-plugin
 %{_libdir}/gimp/*/plug-ins/%{name}-gimp
 %endif
+
 
