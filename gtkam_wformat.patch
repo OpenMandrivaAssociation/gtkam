@@ -44,16 +44,3 @@ Index: gtkam-0.1.16.1/src/gtkam-tree.c
  		gtk_widget_show (dialog);
  		g_free (msg);
  		g_free (full_path);
-Index: gtkam-0.1.16.1/src/main.c
-===================================================================
---- gtkam-0.1.16.1.orig/src/main.c	2008-10-04 10:11:38.000000000 -0400
-+++ gtkam-0.1.16.1/src/main.c	2009-09-16 09:11:28.000000000 -0400
-@@ -49,7 +49,7 @@ static void
- log_func (GPLogLevel level, const char *domain, const char *format,
- 	  va_list args, void *data)
- {
--	fprintf (stderr, domain);
-+	fprintf (stderr, "%s", domain);
- 	fprintf (stderr, ": ");
- 	vfprintf (stderr, format, args);
- 	fprintf (stderr, "\n");
