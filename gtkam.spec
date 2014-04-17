@@ -3,7 +3,7 @@
 Summary:	GPhoto2 GTK+ frontend
 Name:		gtkam
 Version:	0.2.0
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		Graphics
 Url:		http://sourceforge.net/projects/gphoto
@@ -18,10 +18,7 @@ BuildRequires:	imagemagick
 BuildRequires:	intltool
 BuildRequires:	rarian
 BuildRequires:	gettext-devel
-BuildRequires:	pkgconfig(bonobo-activation-2.0)
-BuildRequires:	pkgconfig(libbonobo-2.0)
 BuildRequires:	pkgconfig(libexif-gtk)
-BuildRequires:	pkgconfig(libgnomeui-2.0)
 BuildRequires:	pkgconfig(libgphoto2)
 %if %{buildgimpplugin}
 BuildRequires:	pkgconfig(gimp-2.0)
@@ -48,7 +45,7 @@ GIMP-plug-in for direct digital camera access through GPhoto2.
 %apply_patches
 
 %build
-%configure2_5x
+%configure2_5x --without-bonobo --without-gnome
 
 %make WARN_CFLAGS=""
 
