@@ -3,7 +3,7 @@
 Summary:	GPhoto2 GTK+ frontend
 Name:		gtkam
 Version:	0.2.0
-Release:	14
+Release:	15
 License:	GPLv2+
 Group:		Graphics
 Url:		http://sourceforge.net/projects/gphoto
