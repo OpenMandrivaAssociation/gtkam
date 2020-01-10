@@ -42,7 +42,7 @@ GIMP-plug-in for direct digital camera access through GPhoto2.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
 export LIBS='-lgtk-x11-2.0 -lglib-2.0 -lgobject-2.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0'
