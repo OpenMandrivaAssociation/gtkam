@@ -2,16 +2,16 @@
 
 Summary:	GPhoto2 GTK+ frontend
 Name:		gtkam
-Version:	1.0
-Release:	16
+Version:	1.1
+Release:	1
 License:	GPLv2+
 Group:		Graphics
 Url:		https://sourceforge.net/projects/gphoto
 Source0:	http://downloads.sourceforge.net/gphoto/%{name}-%{version}.tar.bz2
 # file in the tarball is corrupt: replaced from upstream SVN. Drop
 # with any release after 0.1.14. -AdamW 2007/07
-Patch0:		gtkam-omf-install.patch
-Patch1:		gtkam_wformat.patch
+# dropped (no longer applies): Patch0:		gtkam-omf-install.patch
+# dropped (no longer applies): Patch1:		gtkam_wformat.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
